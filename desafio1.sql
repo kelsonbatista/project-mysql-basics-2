@@ -13,6 +13,15 @@ CREATE TABLE IF NOT EXISTS SpotifyClone.plans (
   value VARCHAR(45) NOT NULL
 ) ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Data for table SpotifyClone.plans
+-- -----------------------------------------------------
+INSERT INTO SpotifyClone.plans (plan, value)
+VALUES
+  ("gratuito", "0"),
+  ("universitário", "5.99"),
+  ("pessoal", "6.99"),
+  ("familiar", "7.99");
 
 -- -----------------------------------------------------
 -- Table SpotifyClone.users
@@ -27,86 +36,6 @@ CREATE TABLE IF NOT EXISTS SpotifyClone.users (
   plan_id INT NOT NULL,
   FOREIGN KEY (plan_id) REFERENCES SpotifyClone.plans (plan_id)
 ) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table SpotifyClone.artists
--- -----------------------------------------------------
-DROP TABLE IF EXISTS SpotifyClone.artists ;
-
-CREATE TABLE IF NOT EXISTS SpotifyClone.artists (
-  artist_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table SpotifyClone.albums
--- -----------------------------------------------------
-DROP TABLE IF EXISTS SpotifyClone.albums ;
-
-CREATE TABLE IF NOT EXISTS SpotifyClone.albums (
-  album_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  year VARCHAR(45) NOT NULL,
-  artist_id INT NOT NULL,
-  FOREIGN KEY (artist_id) REFERENCES SpotifyClone.artists (artist_id)
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table SpotifyClone.musics
--- -----------------------------------------------------
-DROP TABLE IF EXISTS SpotifyClone.musics ;
-
-CREATE TABLE IF NOT EXISTS SpotifyClone.musics (
-  music_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  duration VARCHAR(45) NOT NULL,
-  album_id INT NOT NULL,
-  FOREIGN KEY (album_id) REFERENCES SpotifyClone.albums (album_id)
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table SpotifyClone.historic
--- -----------------------------------------------------
-DROP TABLE IF EXISTS SpotifyClone.historic ;
-
-CREATE TABLE IF NOT EXISTS SpotifyClone.historic (
-  user_id INT NOT NULL,
-  music_id INT NOT NULL,
-  date VARCHAR(45) NOT NULL,
-  PRIMARY KEY (user_id, music_id),
-  FOREIGN KEY (user_id) REFERENCES SpotifyClone.users (user_id),
-  FOREIGN KEY (music_id) REFERENCES SpotifyClone.musics (music_id)
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table SpotifyClone.following
--- -----------------------------------------------------
-DROP TABLE IF EXISTS SpotifyClone.following ;
-
-CREATE TABLE IF NOT EXISTS SpotifyClone.following (
-  user_id INT NOT NULL,
-  artist_id INT NOT NULL,
-  PRIMARY KEY (user_id, artist_id),
-  FOREIGN KEY (user_id) REFERENCES SpotifyClone.users (user_id),
-  FOREIGN KEY (artist_id) REFERENCES SpotifyClone.artists (artist_id)
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Data for table SpotifyClone.plans
--- -----------------------------------------------------
-INSERT INTO SpotifyClone.plans (plan, value)
-VALUES
-  ("gratuito", "0"),
-  ("universitário", "5.99"),
-  ("pessoal", "6.99"),
-  ("familiar", "7.99");
-
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.users
@@ -123,7 +52,16 @@ VALUES
   ("Carol", "19", "2018-02-14", 2),
   ("Angelina", "42", "2018-04-29", 4),
   ("Paul", "46", "2017-01-17", 4);
+  
+-- -----------------------------------------------------
+-- Table SpotifyClone.artists
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS SpotifyClone.artists ;
 
+CREATE TABLE IF NOT EXISTS SpotifyClone.artists (
+  artist_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.artists
@@ -137,69 +75,107 @@ VALUES
   ("Tyler Isle"),
   ("Fog");
 
+-- -----------------------------------------------------
+-- Table SpotifyClone.albums
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS SpotifyClone.albums ;
+
+CREATE TABLE IF NOT EXISTS SpotifyClone.albums (
+  album_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL,
+  year INT NOT NULL,
+  artist_id INT NOT NULL,
+  FOREIGN KEY (artist_id) REFERENCES SpotifyClone.artists (artist_id)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.albums
 -- -----------------------------------------------------
 INSERT INTO SpotifyClone.albums (name, year, artist_id)
 VALUES
-  ("Envious", "1990", 1),
-  ("Exuberant", "1993", 1),
-  ("Hallowed Steam", "1995", 2),
-  ("Incandescent", "1998", 3),
-  ("Temporary Culture", "2001", 4),
-  ("Library of liberty", "2003", 4),
-  ("Chained Down", "2007", 5),
-  ("Cabinet of fools", "2012", 5),
-  ("No guarantees", "2015", 5),
-  ("Apparatus", "2015", 6);
+  ("Envious", 1990, 1),
+  ("Exuberant", 1993, 1),
+  ("Hallowed Steam", 1995, 2),
+  ("Incandescent", 1998, 3),
+  ("Temporary Culture", 2001, 4),
+  ("Library of liberty", 2003, 4),
+  ("Chained Down", 2007, 5),
+  ("Cabinet of fools", 2012, 5),
+  ("No guarantees", 2015, 5),
+  ("Apparatus", 2015, 6);
 
+-- -----------------------------------------------------
+-- Table SpotifyClone.musics
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS SpotifyClone.musics ;
+
+CREATE TABLE IF NOT EXISTS SpotifyClone.musics (
+  music_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL,
+  duration INT NOT NULL,
+  album_id INT NOT NULL,
+  FOREIGN KEY (album_id) REFERENCES SpotifyClone.albums (album_id)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.musics
 -- -----------------------------------------------------
 INSERT INTO SpotifyClone.musics (name, duration, album_id)
 VALUES
-  ("Soul For Us", "200", 1),
-  ("Reflections Of Magic", "163", 1),
-  ("Dance With Her Own", "116", 1),
-  ("Troubles Of My Inner Fire", "203", 2),
-  ("Time Fireworks", "152", 2),
-  ("Magic Circus", "105", 3),
-  ("Honey, So Do I", "207", 3),
-  ("Sweetie, Let's Go Wild", "139", 3),
-  ("She Knows", "244", 3),
-  ("Fantasy For Me", "100", 4),
-  ("Celebration Of More", "146", 4),
-  ("Rock His Everything", "223", 4),
-  ("Home Forever", "231", 4),
-  ("Diamond Power", "241", 4),
-  ("Let's Be Silly", "132", 4),
-  ("Thang Of Thunder", "240", 5),
-  ("Words Of Her Life", "185", 5),
-  ("Without My Streets", "176", 5),
-  ("Need Of The Evening", "190", 6),
-  ("History Of My Roses", "222", 6),
-  ("Without My Love", "111", 6),
-  ("Walking And Game", "123", 6),
-  ("Young And Father", "197", 6),
-  ("Finding My Traditions", "179", 7),
-  ("Walking And Man", "229", 7),
-  ("Hard And Time", "135", 7),
-  ("Honey, I'm A Lone Wolf", "150", 7),
-  ("She Thinks I Won't Stay Tonight", "166", 8),
-  ("He Heard You're Bad For Me", "154", 8),
-  ("He Hopes We Can't Stay", "210", 8),
-  ("I Know I Know", "217", 8),
-  ("He's Walking Away", "158", 9),
-  ("He's Trouble", "138", 9),
-  ("I Heard I Want To Bo Alone", "120", 9),
-  ("I Ride Alone", "151", 9),
-  ("Honey", "79", 10),
-  ("You Cheated On Me", "95", 10),
-  ("Wouldn't It Be Nice", "213", 10),
-  ("Baby", "136", 10),
-  ("You Make Me Feel So", "83", 10);
+  ("Soul For Us", 200, 1),
+  ("Reflections Of Magic", 163, 1),
+  ("Dance With Her Own", 116, 1),
+  ("Troubles Of My Inner Fire", 203, 2),
+  ("Time Fireworks", 152, 2),
+  ("Magic Circus", 105, 3),
+  ("Honey, So Do I", 207, 3),
+  ("Sweetie, Let's Go Wild", 139, 3),
+  ("She Knows", 244, 3),
+  ("Fantasy For Me", 100, 4),
+  ("Celebration Of More", 146, 4),
+  ("Rock His Everything", 223, 4),
+  ("Home Forever", 231, 4),
+  ("Diamond Power", 241, 4),
+  ("Let's Be Silly", 132, 4),
+  ("Thang Of Thunder", 240, 5),
+  ("Words Of Her Life", 185, 5),
+  ("Without My Streets", 176, 5),
+  ("Need Of The Evening", 190, 6),
+  ("History Of My Roses", 222, 6),
+  ("Without My Love", 111, 6),
+  ("Walking And Game", 123, 6),
+  ("Young And Father", 197, 6),
+  ("Finding My Traditions", 179, 7),
+  ("Walking And Man", 229, 7),
+  ("Hard And Time", 135, 7),
+  ("Honey, I'm A Lone Wolf", 150, 7),
+  ("She Thinks I Won't Stay Tonight", 166, 8),
+  ("He Heard You're Bad For Me", 154, 8),
+  ("He Hopes We Can't Stay", 210, 8),
+  ("I Know I Know", 117, 8),
+  ("He's Walking Away", 159, 9),
+  ("He's Trouble", 138, 9),
+  ("I Heard I Want To Bo Alone", 120, 9),
+  ("I Ride Alone", 151, 9),
+  ("Honey", 79, 10),
+  ("You Cheated On Me", 95, 10),
+  ("Wouldn't It Be Nice", 213, 10),
+  ("Baby", 136, 10),
+  ("You Make Me Feel So", 83, 10);
+
+-- -----------------------------------------------------
+-- Table SpotifyClone.historic
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS SpotifyClone.historic ;
+
+CREATE TABLE IF NOT EXISTS SpotifyClone.historic (
+  user_id INT NOT NULL,
+  music_id INT NOT NULL,
+  date VARCHAR(45) NOT NULL,
+  PRIMARY KEY (user_id, music_id),
+  FOREIGN KEY (user_id) REFERENCES SpotifyClone.users (user_id),
+  FOREIGN KEY (music_id) REFERENCES SpotifyClone.musics (music_id)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.historic
@@ -244,7 +220,19 @@ VALUES
   (10, 21, "2017-12-04 05:33:43"),
   (10, 12, "2017-07-27 05:24:49"),
   (10, 13, "2017-12-25 01:03:57");
+  
+-- -----------------------------------------------------
+-- Table SpotifyClone.following
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS SpotifyClone.following ;
 
+CREATE TABLE IF NOT EXISTS SpotifyClone.following (
+  user_id INT NOT NULL,
+  artist_id INT NOT NULL,
+  PRIMARY KEY (user_id, artist_id),
+  FOREIGN KEY (user_id) REFERENCES SpotifyClone.users (user_id),
+  FOREIGN KEY (artist_id) REFERENCES SpotifyClone.artists (artist_id)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.following
