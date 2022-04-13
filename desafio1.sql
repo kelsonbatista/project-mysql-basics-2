@@ -9,19 +9,19 @@ DROP TABLE IF EXISTS SpotifyClone.plans ;
 
 CREATE TABLE IF NOT EXISTS SpotifyClone.plans (
   plan_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  plan VARCHAR(45) NOT NULL,
-  value VARCHAR(45) NOT NULL
+  name VARCHAR(45) NOT NULL,
+  price DECIMAL(4,2) NOT NULL
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Data for table SpotifyClone.plans
 -- -----------------------------------------------------
-INSERT INTO SpotifyClone.plans (plan, value)
+INSERT INTO SpotifyClone.plans (name, price)
 VALUES
-  ("gratuito", "0"),
-  ("universitário", "5.99"),
-  ("pessoal", "6.99"),
-  ("familiar", "7.99");
+  ("gratuito", 0.00),
+  ("universitário", 5.99),
+  ("pessoal", 6.99),
+  ("familiar", 7.99);
 
 -- -----------------------------------------------------
 -- Table SpotifyClone.users
